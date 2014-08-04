@@ -178,16 +178,16 @@ class WgetArgs(object):
             "--tries", "inf",
             "--span-hosts",
             "--waitretry", "3600",
-            "--domains", "fotopedia.com,cloudfront.net",
+            "--domains", "fotopedia.com",
             "--warc-file",
                 ItemInterpolation("%(item_dir)s/%(warc_file_base)s"),
             "--warc-header", "operator: Archive Team",
-            "--warc-header", "yahoovoices-dld-script-version: " + VERSION,
-            "--warc-header", ItemInterpolation("yahoovoices-user: %(item_name)s"),
+            "--warc-header", "fotopedia-dld-script-version: " + VERSION,
+            "--warc-header", ItemInterpolation("fotopedia-user: %(item_name)s"),
         ]
 
         item_name = item['item_name']
-        item_type, item_value = item_name.split(':')
+        item_type, item_value = item_name.split(':', 1)
 
         item['item_type'] = item_type
         item['item_value'] = item_value
@@ -217,7 +217,8 @@ class WgetArgs(object):
             wget_args.append('http://www.fotopedia.com/reporter/users/{0}/followers'.format(item_value))
             wget_args.append('http://www.fotopedia.com/reporter/users/{0}/achievements'.format(item_value))
         elif item_type == 'wiki':
-            wget_args.append('http://www.fotopedia.com/wiki/{0}'.format(item_type))
+            locale, name = item_value.split(':', 1)
+            wget_args.append('http://{0}.fotopedia.com/wiki/{1}'.format(locale, name))
         else:
             raise Exception('Unknown item')
 
