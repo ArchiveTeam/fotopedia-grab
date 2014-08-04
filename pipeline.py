@@ -241,7 +241,7 @@ project = Project(
     title="Fotopedia",
     project_html="""
         <img class="project-logo" alt="Project logo" src="http://archiveteam.org/images/a/aa/Fotopedia_Logo.png" height="50px" title="Not to be confused with Photopedia."/>
-        <h2>Fotopedia <span class="links"><a href="http://voices.yahoo.com/">Website</a> &middot; <a href="http://tracker.archiveteam.org/fotopedia/">Leaderboard</a></span></h2>
+        <h2>Fotopedia <span class="links"><a href="http://www.fotopedia.com/">Website</a> &middot; <a href="http://tracker.archiveteam.org/fotopedia/">Leaderboard</a></span></h2>
         <p>Fotopedia is shutting down</p>
     """,
     utc_deadline=datetime.datetime(2014, 8, 9, 23, 59, 0)
