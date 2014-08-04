@@ -58,7 +58,7 @@ if not WGET_LUA:
 VERSION = "20140804.01"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'fotopedia'
-TRACKER_HOST = 'localhost:9080'
+TRACKER_HOST = 'tracker.archiveteam.org'
 
 
 ###########################################################################
