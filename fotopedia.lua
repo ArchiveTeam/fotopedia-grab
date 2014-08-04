@@ -22,7 +22,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   -- We're okay; sleep a bit (if we have to) and continue
   local sleep_time = 0.1 * (math.random(75, 125) / 100.0)
 
-  if string.match(url["host"], "cdn|cloud") then
+  if string.match(url["host"], "cdn") or string.match(url["host"], "cloud") then
     -- We should be able to go fast on images since that's what a web browser does
     sleep_time = 0
   end
@@ -34,5 +34,19 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   return wget.actions.NOTHING
 end
 
+
+wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_parsed, iri, verdict, reason)
+--    print(urlpos["url"]["url"] .. tostring(verdict))
+
+    if string.match(urlpos["url"]["url"], "/bottrap/") then
+        return false
+    end
+    
+    if string.match(urlpos["url"]["url"], "%%7B%%7B") or string.match(urlpos["url"]["url"], "{{") then
+        return false
+    end
+
+    return verdict
+end
 
 
