@@ -216,6 +216,10 @@ class WgetArgs(object):
             wget_args.append('http://www.fotopedia.com/reporter/users/{0}/following'.format(item_value))
             wget_args.append('http://www.fotopedia.com/reporter/users/{0}/followers'.format(item_value))
             wget_args.append('http://www.fotopedia.com/reporter/users/{0}/achievements'.format(item_value))
+
+            # Ultra lazy to paginate it in lua scripting
+            wget_args.append('http://www.fotopedia.com/users/{0}/last_photos/query?offset=0&limit=1000000'.format(item_value))
+
         elif item_type == 'wiki':
             locale, name = item_value.split(':', 1)
             wget_args.append('http://{0}.fotopedia.com/wiki/{1}'.format(locale, name))
