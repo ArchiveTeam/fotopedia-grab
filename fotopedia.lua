@@ -1,5 +1,5 @@
 local url_count = 0
-
+local tries = 0
 
 wget.callbacks.httploop_result = function(url, err, http_stat)
   -- NEW for 2014: Slightly more verbose messages because people keep
@@ -16,8 +16,19 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
     io.stdout:flush()
 
     os.execute("sleep 10")
-    return wget.actions.CONTINUE
+    tries = tries + 1
+    
+    if tries >= 10 and string.match(url["url"], "original%.jpg") then
+        io.stdout:write("\nI give up...\n")
+        io.stdout:flush()
+        tries = 0
+        return wget.actions.NOTHING
+    else
+        return wget.actions.CONTINUE
+    end
   end
+  
+  tries = 0
 
   -- We're okay; sleep a bit (if we have to) and continue
   local sleep_time = 0.1 * (math.random(75, 125) / 100.0)
