@@ -1,6 +1,19 @@
 local url_count = 0
 local tries = 0
 
+
+read_file = function(file)
+    if file then
+        local f = assert(io.open(file))
+        local data = f:read("*all")
+        f:close()
+        return data
+    else
+        return ""
+    end
+end
+
+
 wget.callbacks.httploop_result = function(url, err, http_stat)
   -- NEW for 2014: Slightly more verbose messages because people keep
   -- complaining that it's not moving or not working
@@ -58,6 +71,33 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
     end
 
     return verdict
+end
+
+wget.callbacks.get_urls = function(file, url, is_css, iri)
+
+    if string.match(url, "/albums/") and string.match(url, "/photos") then
+        local current_page = 1
+        
+        if string.match(url, "page=(%d+)") then
+            current_page = tonumber(string.match(url, "page=(%d+)"))
+        end
+        
+    
+        local urls = {}
+        local html = read_file(file)
+        
+        if string.match(html, "page=" .. tostring(current_page + 1) .. "[^%d]") then
+            local new_url = string.match(url, "http.+/photos") .. "?page=2"
+            
+            if current_page ~= 1 then
+                string.match(url, "http.+/photos%?page=")
+                new_url = new_url .. tostring(current_page + 1)
+            end
+            
+            table.insert(urls, { url=new_url, link_expect_html=1 })
+        end
+        return urls
+    end
 end
 
 
