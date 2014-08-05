@@ -66,7 +66,7 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
         return false
     end
     
-    if string.match(urlpos["url"]["url"], "%%7B%%7B") or string.match(urlpos["url"]["url"], "{{") then
+    if string.match(urlpos["url"]["url"], "%%7B%%7B") or string.match(urlpos["url"]["url"], "{{") or string.match(urlpos["url"]["url"], "%%5C%%22") or string.match(urlpos["url"]["url"], "\\\"") then
         return false
     end
 
