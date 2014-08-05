@@ -18,7 +18,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
     os.execute("sleep 10")
     tries = tries + 1
     
-    if tries >= 10 and string.match(url["url"], "original%.jpg") then
+    if tries >= 10 and (string.match(url["url"], "original%.jpg") or status_code == 410) then
         io.stdout:write("\nI give up...\n")
         io.stdout:flush()
         tries = 0
