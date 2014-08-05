@@ -178,7 +178,7 @@ class WgetArgs(object):
             "--tries", "inf",
             "--span-hosts",
             "--waitretry", "3600",
-            "--domains", "fotopedia.com",
+            "--domains", "fotopedia.com,cloudfront.net",
             "--warc-file",
                 ItemInterpolation("%(item_dir)s/%(warc_file_base)s"),
             "--warc-header", "operator: Archive Team",
@@ -223,6 +223,9 @@ class WgetArgs(object):
         elif item_type == 'wiki':
             locale, name = item_value.split(':', 1)
             wget_args.append('http://{0}.fotopedia.com/wiki/{1}'.format(locale, name))
+
+            wget_args.append('http://www.fotopedia.com/albums/fotopedia-{0}-{1}/article_page/query?flag_filter=all&sort=best&direction=natural&offset=0&limit=1000000'.format(locale, name))
+
         else:
             raise Exception('Unknown item')
 
