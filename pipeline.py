@@ -3,22 +3,23 @@ import datetime
 from distutils.version import StrictVersion
 import hashlib
 import os.path
-import seesaw
-from seesaw.externalprocess import WgetDownload
-from seesaw.pipeline import Pipeline
-from seesaw.project import Project
-from seesaw.util import find_executable
+import random
+from seesaw.config import realize, NumberConfigValue
+from seesaw.item import ItemInterpolation, ItemValue
+from seesaw.task import SimpleTask, LimitConcurrent
+from seesaw.tracker import GetItemFromTracker, PrepareStatsForTracker, \
+    UploadWithTracker, SendDoneToTracker
 import shutil
 import socket
 import subprocess
 import sys
 import time
 
-from seesaw.config import realize, NumberConfigValue
-from seesaw.item import ItemInterpolation, ItemValue
-from seesaw.task import SimpleTask, LimitConcurrent
-from seesaw.tracker import GetItemFromTracker, PrepareStatsForTracker, \
-    UploadWithTracker, SendDoneToTracker
+import seesaw
+from seesaw.externalprocess import WgetDownload
+from seesaw.pipeline import Pipeline
+from seesaw.project import Project
+from seesaw.util import find_executable
 
 
 # check the seesaw version
@@ -55,7 +56,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20140805.03"
+VERSION = "20140805.04"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'fotopedia'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -178,13 +179,18 @@ class WgetArgs(object):
             "--tries", "inf",
             "--span-hosts",
             "--waitretry", "3600",
-            "--domains", "fotopedia.com,cloudfront.net",
+#             "--domains", "fotopedia.com,cloudfront.net",
             "--warc-file",
                 ItemInterpolation("%(item_dir)s/%(warc_file_base)s"),
             "--warc-header", "operator: Archive Team",
             "--warc-header", "fotopedia-dld-script-version: " + VERSION,
             "--warc-header", ItemInterpolation("fotopedia-user: %(item_name)s"),
         ]
+
+        if random.randint(1, 10) == 1:
+            wget_args.extend(["--domains", "fotopedia.com,cloudfront.net", ])
+        else:
+            wget_args.extend(["--domains", "fotopedia.com", ])
 
         item_name = item['item_name']
         item_type, item_value = item_name.split(':', 1)
