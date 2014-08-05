@@ -28,10 +28,10 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
     io.stdout:write("\nServer returned "..http_stat.statcode..". Sleeping.\n")
     io.stdout:flush()
 
-    os.execute("sleep 10")
+    os.execute("sleep 20")
     tries = tries + 1
     
-    if tries >= 10 and (string.match(url["url"], "original%.jpg") or status_code == 410) then
+    if tries >= 5 and (string.match(url["url"], "original%.jpg") or status_code == 410) then
         io.stdout:write("\nI give up...\n")
         io.stdout:flush()
         tries = 0
@@ -44,7 +44,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   tries = 0
 
   -- We're okay; sleep a bit (if we have to) and continue
-  local sleep_time = 0.1 * (math.random(75, 125) / 100.0)
+  local sleep_time = 0.1 * (math.random(75, 1000) / 100.0)
 
   if string.match(url["host"], "cdn") or string.match(url["host"], "cloud") then
     -- We should be able to go fast on images since that's what a web browser does
