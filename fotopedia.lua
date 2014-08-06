@@ -24,21 +24,22 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   io.stdout:flush()
 
   if status_code >= 500 or 
-  (status_code >= 400 and status_code ~= 404) then
+  (status_code >= 400 and status_code ~=403 and status_code ~= 404 and status_code ~= 410) then
     io.stdout:write("\nServer returned "..http_stat.statcode..". Sleeping.\n")
     io.stdout:flush()
 
     os.execute("sleep 20")
+    
     tries = tries + 1
     
-    if tries >= 5 and (string.match(url["url"], "original%.jpg") or status_code == 410) then
-        io.stdout:write("\nI give up...\n")
-        io.stdout:flush()
-        tries = 0
-        return wget.actions.NOTHING
-    else
-        return wget.actions.CONTINUE
-    end
+--    if tries >= 2 and status_code == 403 then
+--        io.stdout:write("\nI give up...\n")
+--        io.stdout:flush()
+--        tries = 0
+--        return wget.actions.NOTHING
+--    else
+    return wget.actions.CONTINUE
+--    end
   end
   
   tries = 0
