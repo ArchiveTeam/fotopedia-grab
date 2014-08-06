@@ -32,14 +32,13 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
     
     tries = tries + 1
     
---    if tries >= 2 and status_code == 403 then
---        io.stdout:write("\nI give up...\n")
---        io.stdout:flush()
---        tries = 0
---        return wget.actions.NOTHING
---    else
-    return wget.actions.CONTINUE
---    end
+    if tries >= 5 then
+        io.stdout:write("\nI give up...\n")
+        io.stdout:flush()
+        return wget.actions.ABORT
+    else
+        return wget.actions.CONTINUE
+    end
   end
   
   tries = 0

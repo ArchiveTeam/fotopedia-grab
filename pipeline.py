@@ -56,7 +56,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20140806.01"
+VERSION = "20140806.02"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'fotopedia'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -267,7 +267,7 @@ pipeline = Pipeline(
     PrepareDirectories(warc_prefix="fotopedia"),
     WgetDownload(
         WgetArgs(),
-        max_tries=5,
+        max_tries=2,
         accept_on_exit_code=[0, 8],
         env={
             "item_dir": ItemValue("item_dir"),
