@@ -56,7 +56,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20140806.02"
+VERSION = "20140807.01"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'fotopedia'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -224,7 +224,10 @@ class WgetArgs(object):
             wget_args.append('http://www.fotopedia.com/reporter/users/{0}/achievements'.format(item_value))
 
             # Ultra lazy to paginate it in lua scripting
-            wget_args.append('http://www.fotopedia.com/users/{0}/last_photos/query?offset=0&limit=1000000'.format(item_value))
+#             wget_args.append('http://www.fotopedia.com/users/{0}/last_photos/query?offset=0&limit=1000000'.format(item_value))
+
+            for offset in range(0, 50000, 1000):
+                wget_args.append('http://www.fotopedia.com/users/{0}/last_photos/query?offset={1}&limit=1000'.format(item_value, offset))
 
         elif item_type == 'wiki':
             locale, name = item_value.split(':', 1)
