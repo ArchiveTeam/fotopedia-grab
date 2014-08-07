@@ -56,7 +56,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20140807.01"
+VERSION = "20140807.02"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'fotopedia'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -271,7 +271,8 @@ pipeline = Pipeline(
     WgetDownload(
         WgetArgs(),
         max_tries=2,
-        accept_on_exit_code=[0, 8],
+#         accept_on_exit_code=[0, 8],
+        accept_on_exit_code=[0, 4, 8],  # future copy-&-pasters, don't allow 4!!! this is only useful for last-minute items!!!
         env={
             "item_dir": ItemValue("item_dir"),
             "item_value": ItemValue("item_value"),

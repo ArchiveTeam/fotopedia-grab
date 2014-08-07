@@ -28,7 +28,8 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
     io.stdout:write("\nServer returned "..http_stat.statcode..". Sleeping.\n")
     io.stdout:flush()
 
-    os.execute("sleep 20")
+--    os.execute("sleep 20")
+    os.execute("sleep 2")
     
     tries = tries + 1
     
